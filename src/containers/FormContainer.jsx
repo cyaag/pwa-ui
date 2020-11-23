@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import "../App.css"
+import {Redirect} from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 
 /* Import Components */
 import CheckBox from '../components/CheckBox';
@@ -24,26 +26,28 @@ class FormContainer extends Component {
         socialimpact: '',
         envimpact: '',
         finimpact: '',
-        name: '',
-        age: '',
-        gender: '',
-        skills: [],
-        about: ''
-
+        video: '',
+        logo: ''
       },
 
       targetOptions: ['100', '200', '500', '1000', '2000', '5000', '10000'],
       timeframeOptions: ['10', '30', '60', '100', '200', '360'],
       rewardBudgetOptions: ['1000', '5000', '10000', '20000', '30000', '50000', '75000', '100000'],
-      genderOptions: ['Male', 'Female', 'Others'],
-      skillOptions: ['Programming', 'Development', 'Design', 'Testing']
-
+      
     }
     this.handleTextArea = this.handleTextArea.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleDesc = this.handleDesc.bind(this);
-    this.handleAge = this.handleAge.bind(this);
-    this.handleFullName = this.handleFullName.bind(this);
+    this.handleTarget = this.handleTarget.bind(this);
+    this.handleTimeframe = this.handleTimeframe.bind(this);
+    this.handleRegion = this.handleRegion.bind(this);
+    this.handleRewardBudget = this.handleRewardBudget.bind(this);
+    this.handlePointBudget = this.handlePointBudget.bind(this);
+    this.handleSocialImpact = this.handleSocialImpact.bind(this);
+    this.handleEnvImpact = this.handleEnvImpact.bind(this);
+    this.handleFinImpact = this.handleFinImpact.bind(this);
+    this.handleVideo = this.handleVideo.bind(this);
+    this.handleLogo = this.handleLogo.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
     this.handleCheckBox = this.handleCheckBox.bind(this);
@@ -67,7 +71,7 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, desc: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -77,7 +81,7 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, target: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -87,7 +91,7 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, timeframe: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -97,17 +101,17 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, region: value
       }
     }), () => console.log(this.state.newUser))
   }
 
-  handleReardBudget(e) {
+  handleRewardBudget(e) {
     let value = e.target.value;
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, rewardbudget: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -117,7 +121,7 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, pointbudget: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -126,7 +130,7 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, socialimpact: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -136,7 +140,7 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, envimpact: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -146,27 +150,27 @@ class FormContainer extends Component {
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, title: value
+        ...prevState.newUser, finimpact: value
       }
     }), () => console.log(this.state.newUser))
   }
 
-  handleFullName(e) {
+  handleVideo(e) {
     let value = e.target.value;
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, name: value
+        ...prevState.newUser, video: value
       }
     }), () => console.log(this.state.newUser))
   }
 
-  handleAge(e) {
+  handleLogo(e) {
     let value = e.target.value;
     this.setState(prevState => ({
       newUser:
       {
-        ...prevState.newUser, age: value
+        ...prevState.newUser, logo: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -187,7 +191,7 @@ class FormContainer extends Component {
     let value = e.target.value;
     this.setState(prevState => ({
       newUser: {
-        ...prevState.newUser, about: value
+        ...prevState.newUser, desc: value
       }
     }), () => console.log(this.state.newUser))
   }
@@ -214,8 +218,17 @@ class FormContainer extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
     let userData = this.state.newUser;
+    console.log("USER DATA");
+    console.log(JSON.stringify(userData));
 
-    fetch('http://example.com', {
+    /*fetch('/users').then(Response => {
+      Response.json().then(data => {
+        console.log("Successful " + data);
+      })
+    );
+    }*/ 
+    
+    fetch('/create', {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
@@ -225,8 +238,14 @@ class FormContainer extends Component {
     }).then(response => {
       response.json().then(data => {
         console.log("Successful" + data);
+        this.props.history.push('/CD');
       })
-    })
+//      console.log("REDIRECTING TO YDS");
+      
+    }) 
+    
+     // return (<Redirect to={'/YDS'}/>)
+    
   }
 
   handleClearForm(e) {
@@ -244,11 +263,8 @@ class FormContainer extends Component {
         socialimpact: '',
         envimpact: '',
         finimpact: '',
-        name: '',
-        age: '',
-        gender: '',
-        skills: [],
-        about: ''
+        video: '',
+        logo: '',
       },
     })
   }
@@ -257,8 +273,6 @@ class FormContainer extends Component {
     return (
 
       <form className="container-fluid" onSubmit={this.handleFormSubmit}>
-
-
         <Input inputType={'text'}
           title={'Title'}
           name={'title'}
@@ -277,7 +291,7 @@ class FormContainer extends Component {
           placeholder={'Describe about your yaag'} />{/* Description */}
 
         <Select title={'Set Target'}
-          name={'settarget'}
+          name={'target'}
           options={this.state.targetOptions}
           value={this.state.newUser.target}
           placeholder={'Select Scale out user count'}
@@ -285,16 +299,16 @@ class FormContainer extends Component {
         /> {/* Set Target Selection */}
 
         <Select title={'Set Timeframe'}
-          name={'settimeframe'}
+          name={'timeframe'}
           options={this.state.timeframeOptions}
           value={this.state.newUser.timeframe}
           placeholder={'Select Scale out user count'}
           handleChange={this.handleInput}
-        /> {/* Set Target Selection */}
+        /> {/* Set Timeframe Selection */}
 
         <Input inputType={'text'}
           title={'Region'}
-          name={'name'}
+          name={'region'}
           value={this.state.newUser.region}
           placeholder={'Enter name of city/state/locality you want to scale out'}
           handleChange={this.handleInput}
@@ -314,44 +328,46 @@ class FormContainer extends Component {
           value={this.state.newUser.pointbudget}
           placeholder={'Enter your Point Budget'}
           handleChange={this.handlePointBudget} /> {/* Point Budget */}
+          
+        <Input inputType={'text'}
+          title={'Social Impact'}
+          name={'socialimpact'}
+          value={this.state.newUser.socialimpact}
+          placeholder={'Describe Social Impact'}
+          handleChange={this.handleInput}
+        /> {/* Social Impact */}
 
         <Input inputType={'text'}
-          title={'Full Name'}
-          name={'name'}
-          value={this.state.newUser.name}
-          placeholder={'Enter your name'}
+          title={'Environmental Impact'}
+          name={'envimpact'}
+          value={this.state.newUser.envimpact}
+          placeholder={'Describe Environmental Impact'}
           handleChange={this.handleInput}
-
-        /> {/* Name of the user */}
-
-        <Input inputType={'number'}
-          name={'age'}
-          title={'Age'}
-          value={this.state.newUser.age}
-          placeholder={'Enter your age'}
-          handleChange={this.handleAge} /> {/* Age */}
-
-
-        <Select title={'Gender'}
-          name={'gender'}
-          options={this.state.genderOptions}
-          value={this.state.newUser.gender}
-          placeholder={'Select Gender'}
+        /> {/* Env Impact  to scale out */}
+        
+        <Input inputType={'text'}
+          title={'Financial Impact'}
+          name={'finimpact'}
+          value={this.state.newUser.finimpact}
+          placeholder={'Describe Financial Impact'}
           handleChange={this.handleInput}
-        /> {/* Age Selection */}
-        <CheckBox title={'Skills'}
-          name={'skills'}
-          options={this.state.skillOptions}
-          selectedOptions={this.state.newUser.skills}
-          handleChange={this.handleCheckBox}
-        /> {/* Skill */}
-        <TextArea
-          title={'About you.'}
-          rows={10}
-          value={this.state.newUser.about}
-          name={'currentPetInfo'}
-          handleChange={this.handleTextArea}
-          placeholder={'Describe your past experience and skills'} />{/* About you */}
+        /> {/* Financial Impact to scale out */}
+
+        <Input inputType={'text'}
+          title={'Video'}
+          name={'video'}
+          value={this.state.newUser.video}
+          placeholder={'Upload Video'}
+          handleChange={this.handleInput}
+        /> {/* Video about Yaag */}
+
+        <Input inputType={'text'}
+          title={'Logo'}
+          name={'logo'}
+          value={this.state.newUser.logo}
+          placeholder={'Upload Logo'}
+          handleChange={this.handleInput}
+        /> {/* Logo of your yaag */}
 
         <Button
           action={this.handleFormSubmit}
@@ -367,8 +383,9 @@ class FormContainer extends Component {
           style={buttonStyle}
         /> {/* Clear the form */}
 
+        
       </form>
-
+     
     );
   }
 }

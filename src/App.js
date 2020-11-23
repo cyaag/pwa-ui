@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Routes from './routes';
+//import SideMenu from "../components/SideMenu";
 
 class App extends Component {
 
@@ -12,8 +13,10 @@ super();
 }
 }
 
+
 render() {
 return (
+    
 <div>
 <Routes name={this.state.appName}/>
 </div>
