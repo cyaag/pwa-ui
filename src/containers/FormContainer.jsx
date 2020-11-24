@@ -6,9 +6,9 @@ import { withRouter } from 'react-router-dom'
 /* Import Components */
 import CheckBox from '../components/CheckBox';
 import Input from '../components/Input';
-import TextArea from '../components/TextArea';
 import Select from '../components/Select';
 import Button from '../components/Button'
+import { TextArea } from '../components';
 
 class FormContainer extends Component {
   constructor(props) {
@@ -282,7 +282,7 @@ class FormContainer extends Component {
 
         /> {/* title of the yaag */}
 
-        <TextArea
+       <TextArea
           title={'Description'}
           rows={10}
           value={this.state.newUser.desc}
