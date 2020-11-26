@@ -238,7 +238,12 @@ class FormContainer extends Component {
     }).then(response => {
       response.json().then(data => {
         console.log("Successful" + data);
-        this.props.history.push('/CD');
+
+        this.props.history.push({ 
+          pathname: '/CD',
+          state: data
+         });
+        //this.props.history.push('/CD');
       })
 //      console.log("REDIRECTING TO YDS");
       
@@ -353,7 +358,7 @@ class FormContainer extends Component {
           handleChange={this.handleInput}
         /> {/* Financial Impact to scale out */}
 
-        <Input inputType={'text'}
+        <Input inputType={'file'}
           title={'Video'}
           name={'video'}
           value={this.state.newUser.video}
@@ -361,7 +366,7 @@ class FormContainer extends Component {
           handleChange={this.handleInput}
         /> {/* Video about Yaag */}
 
-        <Input inputType={'text'}
+        <Input inputType={'file'}
           title={'Logo'}
           name={'logo'}
           value={this.state.newUser.logo}
