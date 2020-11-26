@@ -12,10 +12,11 @@ import MyYaag from "./containers/MyYaags/MyYaag";
 
 const Routes = () => (
   <BrowserRouter>
-    <Switch>
+    <Switch>  \
+
       <Route exact path="/" component={Login} />
       <Route path="/logout" component={Logout} />
-      <Route path="/home" component={Dashboard} />
+      <Route path="/home" component={Form} />
       <Route path="/myYaag" component={MyYaag} />
       <Route path="/YDS" component={YaagDS} />
       <Route path="/CD" component={CardDash} />
