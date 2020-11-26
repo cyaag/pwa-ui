@@ -10,11 +10,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid, Box } from '@material-ui/core';
 import { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { SettingsInputCompositeSharp } from '@material-ui/icons';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import PropTypes from 'prop-types';
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles({
 	root: {
@@ -33,6 +33,8 @@ const useStyles = makeStyles({
 export default function MediaCard(props) {
 	const classes = useStyles();
 	const [ todos, updatetodos ] = useState([]);
+	const {state} = useLocation();
+	const { id, color } = state;
 	/*const [todos, updatetodos] = useState(
     {
       id: '', 
@@ -46,19 +48,19 @@ export default function MediaCard(props) {
     })*/
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:3000/dashboard')
-			.then((response) => {
-				console.log(response.data);
-				updatetodos(response.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		console.log("State -------", state)
+		// axios
+		// 	.get('http://localhost:3000/dashboard')
+		// 	.then((response) => {
+		// 		console.log(response.data);
+		// 		updatetodos(response.data);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
 	}, []);
 
 	return (
-    
     
 
 		<Grid container spacing="5" className={classes.gridContainer} justify="center">
@@ -96,7 +98,7 @@ export default function MediaCard(props) {
       <Grid item xs={4}>
       <Box display="flex" alignItems="center">
       <Box width="100%" mr={1}>
-        <LinearProgressBar />
+        <LinearProgressBar state={state} />
       </Box>
       <Box minWidth={200}>
         
